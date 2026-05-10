@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'screens/machine_list_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const AgriMachineManagerApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class AgriMachineManagerApp extends StatelessWidget {
+  const AgriMachineManagerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const HomeScreen(),
+      home: const MachineListScreen(),
     );
   }
 }

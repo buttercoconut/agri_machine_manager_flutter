@@ -1,35 +1,47 @@
 import 'package:flutter/material.dart';
-import '../widgets/machine_card.dart';
 import '../models/machine.dart';
+import '../widgets/machine_card.dart';
 
-class MachineListScreen extends StatelessWidget {
-  const MachineListScreen({Key? key}) : super(key: key);
+class MachineListScreen extends StatefulWidget {
+  const MachineListScreen({super.key});
 
-  // Dummy data for demonstration
-  final List<Machine> machines = const [
+  @override
+  State<MachineListScreen> createState() => _MachineListScreenState();
+}
+
+class _MachineListScreenState extends State<MachineListScreen> {
+  // In a real app this would come from an API
+  final List<Machine> _machines = [
     Machine(
-      id: 1,
-      modelName: 'Tractor X200',
-      serialNumber: 'SN123456',
-      purchaseDate: '2021-05-10',
-      usageHours: 1200,
+      id: '1',
+      name: 'Tractor X200',
+      status: MachineStatus.operational,
+      lastMaintenance: DateTime.now().subtract(const Duration(days: 10)),
     ),
     Machine(
-      id: 2,
-      modelName: 'Harvester H300',
-      serialNumber: 'SN654321',
-      purchaseDate: '2022-01-22',
-      usageHours: 800,
+      id: '2',
+      name: 'Harvester Y300',
+      status: MachineStatus.maintenance,
+      lastMaintenance: DateTime.now().subtract(const Duration(days: 3)),
+    ),
+    Machine(
+      id: '3',
+      name: 'Sprayer Z150',
+      status: MachineStatus.operational,
+      lastMaintenance: DateTime.now().subtract(const Duration(days: 20)),
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Machine List'),
+      ),
       body: ListView.builder(
-        itemCount: machines.length,
+        itemCount: _machines.length,
         itemBuilder: (context, index) {
-          return MachineCard(machine: machines[index]);
+          return MachineCard(machine: _machines[index]);
         },
       ),
     );
