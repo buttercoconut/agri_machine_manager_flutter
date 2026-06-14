@@ -1,38 +1,30 @@
-# schemas.py
 from pydantic import BaseModel, Field
 from datetime import date
+from typing import Optional
 
 class MachineBase(BaseModel):
-    model_name: str
-    serial_number: str
-    purchase_date: date
-    usage_hours: float = 0.0
-    last_maintenance: date | None = None
+    model_name: str = Field(..., example="Tractor X200")
+    serial_number: str = Field(..., example="SN123456789")
+    purchase_date: date = Field(..., example="2022-05-15")
+    usage_hours: float = Field(0.0, example=120.5)
 
 class MachineCreate(MachineBase):
     pass
 
-class MachineUpdate(BaseModel):
-    usage_hours: float | None = None
-    last_maintenance: date | None = None
-
 class Machine(MachineBase):
     id: int
-
     class Config:
         orm_mode = True
 
-class MaintenanceRecordBase(BaseModel):
-    maintenance_date: date
-    description: str | None = None
-    parts_replaced: str | None = None
-
-class MaintenanceRecordCreate(MaintenanceRecordBase):
+class MaintenanceBase(BaseModel):
     machine_id: int
+    scheduled_date: date
+    description: Optional[str] = None
 
-class MaintenanceRecord(MaintenanceRecordBase):
+class MaintenanceCreate(MaintenanceBase):
+    pass
+
+class Maintenance(MaintenanceBase):
     id: int
-    machine_id: int
-
     class Config:
         orm_mode = True

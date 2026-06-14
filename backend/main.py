@@ -1,16 +1,20 @@
-# main.py
 from fastapi import FastAPI
-from .routers import machines, maintenance
-from .database import engine, Base
-
-# Create tables
-Base.metadata.create_all(bind=engine)
+from fastapi.middleware.cors import CORSMiddleware
+from .routers import machine, maintenance
 
 app = FastAPI(title="Agri Machine Manager API")
 
-app.include_router(machines.router)
-app.include_router(maintenance.router)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(machine.router, prefix="/machines", tags=["machines"])
+app.include_router(maintenance.router, prefix="/maintenances", tags=["maintenances"])
 
 @app.get("/")
-def read_root():
-    return {"message": "Welcome to the Agri Machine Manager API"}
+async def root():
+    return {"message": "Welcome to Agri Machine Manager API"}

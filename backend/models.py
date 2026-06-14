@@ -1,7 +1,7 @@
-# models.py
-from sqlalchemy import Column, Integer, String, Date, Float, ForeignKey
-from sqlalchemy.orm import relationship
-from .database import Base
+from sqlalchemy import Column, Integer, String, Date, Float
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
 
 class Machine(Base):
     __tablename__ = "machines"
@@ -10,15 +10,10 @@ class Machine(Base):
     serial_number = Column(String, unique=True, nullable=False)
     purchase_date = Column(Date, nullable=False)
     usage_hours = Column(Float, default=0.0)
-    last_maintenance = Column(Date)
-    # relationships
-    maintenance_records = relationship("MaintenanceRecord", back_populates="machine")
 
 class MaintenanceRecord(Base):
     __tablename__ = "maintenance_records"
     id = Column(Integer, primary_key=True, index=True)
-    machine_id = Column(Integer, ForeignKey("machines.id"))
-    maintenance_date = Column(Date, nullable=False)
-    description = Column(String)
-    parts_replaced = Column(String)
-    machine = relationship("Machine", back_populates="maintenance_records")
+    machine_id = Column(Integer, nullable=False)
+    scheduled_date = Column(Date, nullable=False)
+    description = Column(String, nullable=True)
